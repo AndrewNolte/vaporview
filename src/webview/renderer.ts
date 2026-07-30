@@ -613,6 +613,9 @@ export class BinaryWaveformRenderer implements WaveformRenderer {
       ctx.lineTo(startTime, 1);
       ctx.lineTo(startTime, 0);
     });
+    ctx.fillStyle   = xzColor;
+    ctx.globalAlpha = 0.1;
+    ctx.fill();
     ctx.restore();
     ctx.lineWidth = 1;
     ctx.strokeStyle = xzColor;
@@ -621,6 +624,9 @@ export class BinaryWaveformRenderer implements WaveformRenderer {
     ctx.stroke();
     ctx.shadowBlur  = 0;
     ctx.restore();
+    // This seems to fix a weird renderer bug where multi-bit lines show up
+    ctx.beginPath();
+    ctx.moveTo(0,0);
   }
 }
 
