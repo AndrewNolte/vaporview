@@ -5,6 +5,7 @@
 - Merge waveform canvases and rows into a single canvas
 - Added menu option to show Readme
 - Update wellen to 0.25.6
+- Fix glitch with Alt + Down next to collapsed groups
 
 ## 1.5.4 - 6/4/2026 - Latest Release
 

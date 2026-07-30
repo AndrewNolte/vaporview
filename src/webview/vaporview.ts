@@ -397,16 +397,14 @@ class VaporviewWebview {
       // if the adjacent row is a group, and the group is expanded, we place it in the top or bottom of the group
       const adjacentRowId = parentList[newIndex];
       const adjacentGroupId = rowHandler.groupIdTable.indexOf(adjacentRowId);
-      if (adjacentGroupId !== -1) {
-        const groupItem = rowHandler.rowItems[rowHandler.groupIdTable[adjacentGroupId]];
-        if (groupItem instanceof SignalGroup && groupItem.collapseState === CollapseState.Expanded) {
-          parentGroupId = adjacentGroupId;
-          if (direction > 0) {newIndex = 0;}
-          else {
-            const adjacentGroup = rowHandler.rowItems[rowHandler.groupIdTable[adjacentGroupId]];
-            if (!(adjacentGroup instanceof SignalGroup)) {return;}
-            newIndex = adjacentGroup.children.length;
-          }
+      const groupItem = rowHandler.rowItems[adjacentRowId];
+      if (groupItem instanceof SignalGroup && groupItem.collapseState === CollapseState.Expanded) {
+        parentGroupId = adjacentGroupId;
+        if (direction > 0) {newIndex = 0;}
+        else {
+          const adjacentGroup = rowHandler.rowItems[rowHandler.groupIdTable[adjacentGroupId]];
+          if (!(adjacentGroup instanceof SignalGroup)) {return;}
+          newIndex = adjacentGroup.children.length;
         }
       // not sure why, but we need to increment the index if moving down
       } else if (direction > 0) {
