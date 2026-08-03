@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { NetlistId, SignalId, VariableEncoding, WebviewStateEvent } from '../common/types';
-import { bitRangeString, createInstancePath, parseParamValue } from '../common/functions';
+import { bitRangeString, createInstancePath, parseParamValue, timeHz } from '../common/functions';
 import type { VaporviewDocument } from './document';
 import { WaveformViewerProvider } from './viewer_provider';
 import type { NetlistTreeItemData, SignalEvent } from '../../packages/vaporview-api/types';
@@ -378,6 +378,7 @@ export const netlistItemDragAndDropController: vscode.TreeDragAndDropController<
   handleDrop: (target: NetlistItem | undefined, dataTransfer: vscode.DataTransfer, token: vscode.CancellationToken) => {return Promise.resolve();},
 };
 
+//#region Status Bar
 export class VaporviewStatusBar {
 
   public markerTimeStatusBarItem: vscode.StatusBarItem;
@@ -420,7 +421,7 @@ export class VaporviewStatusBar {
       this.markerTimeStatusBarItem.text = 'Time: ' + document.formatTime(w.markerTime, timeUnit);
       if (w.altMarkerTime !== null && w.markerTime !== null) {
         const deltaT = w.markerTime - w.altMarkerTime;
-        this.deltaTimeStatusBarItem.text = 'Δt: ' + document.formatTime(deltaT, timeUnit);
+        this.deltaTimeStatusBarItem.text = 'Δt: ' + document.formatTime(deltaT, timeUnit)  + ' (' + timeHz(deltaT, document.metadata.timeUnit, 3) + ')';
         this.deltaTimeStatusBarItem.show();
       } else {
         this.deltaTimeStatusBarItem.hide();

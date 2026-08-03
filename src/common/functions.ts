@@ -54,3 +54,27 @@ export function logScaleFromUnits(unit: string | undefined) {
     default: return 0;
   }
 }
+
+export function timeHz(deltaT: number, unit: string | undefined, precision: number): string {
+  const timeHz = Math.abs(1 / (deltaT * scaleFromUnits(unit)));
+  let divisor  = 1;
+  let units    = 'Hz';
+  if (timeHz >= 1e15) {
+    divisor = 1e15;
+    units   = 'PHz';
+  } else if (timeHz >= 1e12) {
+    divisor = 1e12;
+    units   = 'THz';
+  } else if (timeHz >= 1e9) {
+    divisor = 1e9;
+    units   = 'GHz';
+  } else if (timeHz >= 1e6) {
+    divisor = 1e6;
+    units   = 'MHz';
+  } else if (timeHz >= 1e3) {
+    divisor = 1e3;
+    units   = 'KHz';
+  }
+  const roundedTimeHz = Math.round((timeHz / divisor) * Math.pow(10, precision)) / Math.pow(10, precision);
+  return roundedTimeHz + ' ' + units;
+}
